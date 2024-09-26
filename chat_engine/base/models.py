@@ -20,6 +20,8 @@ class AccountManager(BaseUserManager):
 
         user.set_password(password)
 
+        user.save(using=self._db)
+
         return user
 
     def create_superuser(self, email, username, password=None, **extra):
@@ -39,7 +41,7 @@ class User(AbstractBaseUser):
     username = models.CharField(_("Username"), max_length=50, unique=True)
 
     date_joined = models.DateTimeField(_("Date Joined"), auto_now_add=True, blank=True)
-    last_login = models.DateTimeField(_("Date Joined"), auto_now=True, blank=True)
+    last_login = models.DateTimeField(_("Last Login"), auto_now=True, blank=True)
 
     is_active = models.BooleanField(_("Is active"), default=True)
     is_admin = models.BooleanField(_("Is admin"), default=True)
@@ -50,3 +52,15 @@ class User(AbstractBaseUser):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
+
+    def __str__(self):
+        return self.username
+
+    def has_module_perms(self, obj):
+        return True
+    
+    def has_perms(self, obj):
+        return True
+    
+    def has_perm(self, obj):
+        return True
