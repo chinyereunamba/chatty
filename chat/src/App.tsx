@@ -10,7 +10,6 @@ const App = () => {
   //   setLoggedIn(false);
   // };
 
-  console.log(isLoggedIn);
 
   return (
     <section className="min-h-screen">

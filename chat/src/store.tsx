@@ -1,24 +1,30 @@
 // store.ts
 import { create } from "zustand";
+import { UserData } from "./pages";
 
 interface AuthState {
   isLoggedIn: boolean;
-  accessToken: string | null;
+  user: UserData | null;
   setLoggedIn: (loggedIn: boolean) => void;
-  setAccessToken: (token: string | null) => void;
+  setUser: (user: UserData | null) => void;
 }
 
+// Retrieve the user from localStorage and parse it into a UserData object
+const storedUser = localStorage.getItem("user");
+const parsedUser: UserData | null = storedUser ? JSON.parse(storedUser) : null;
+
+
 const useAuthStore = create<AuthState>((set) => ({
-  isLoggedIn: !!localStorage.getItem("accessToken"),
-  accessToken: localStorage.getItem("accessToken"),
+  isLoggedIn: !!localStorage.getItem("user"),
+  user: parsedUser,
   setLoggedIn: (loggedIn) => set({ isLoggedIn: loggedIn }),
-  setAccessToken: (token) => {
-    if (token) {
-      localStorage.setItem("accessToken", token);
+  setUser: (user) => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
     } else {
-      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user");
     }
-    set({ accessToken: token });
+    set({ user: user });
   },
 }));
 

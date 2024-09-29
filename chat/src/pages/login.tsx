@@ -10,8 +10,8 @@ type User = {
 };
 
 const Login = () => {
-  const { setLoggedIn, setAccessToken } = useAuthStore();
-  const [user, setUser] = useState<User>({
+  const { setLoggedIn, setUser } = useAuthStore();
+  const [userDetail, setUserDetail] = useState<User>({
     email: "",
     password: "",
   });
@@ -20,8 +20,8 @@ const Login = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const email = user.email;
-    const password = user.password;
+    const email = userDetail.email;
+    const password = userDetail.password;
 
     api
       .post("auth/login/", {
@@ -29,7 +29,7 @@ const Login = () => {
         password: password,
       })
       .then((res) => {
-        setAccessToken(res.data.access);
+        setUser(res.data);
         setLoggedIn(true);
         console.log(res);
         navigate("/");
@@ -48,7 +48,7 @@ const Login = () => {
             label: "Email",
             id: "email",
             placeholder: "johndoe@mail.com",
-            change: (e) => setUser({ ...user, email: e.currentTarget.value }),
+            change: (e) => setUserDetail({ ...userDetail, email: e.currentTarget.value }),
           },
           {
             name: "password",
@@ -57,7 +57,7 @@ const Login = () => {
             id: "password",
             placeholder: "********",
             change: (e) =>
-              setUser({ ...user, password: e.currentTarget.value }),
+              setUserDetail({ ...userDetail, password: e.currentTarget.value }),
           },
         ]}
         submitFnc={handleSubmit}
