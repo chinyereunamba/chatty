@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, FormTitle } from "../components";
 import { FormEvent, useState } from "react";
+import api from "../services";
 
 type User = {
   email: string;
@@ -13,10 +14,22 @@ const Login = () => {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     const email = user.email;
     const password = user.password;
+
+    api
+      .post("auth/login/", {
+        email: email,
+        password: password,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .then((res) => navigate("/"));
 
     console.log(email, password);
   };

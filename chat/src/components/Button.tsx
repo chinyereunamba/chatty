@@ -7,7 +7,7 @@ export const FormButton = ({ buttonLabel, handleClick }: ButtonProps) => {
     <button
       type="submit"
       onClick={handleClick}
-      className="p-2.5 bg-teal-900 hover:bg-teal-900/70 transition-colors rounded-lg w-full"
+      className="p-2.5 bg-teal-900 hover:bg-teal-900/70 transition-colors rounded-md w-full"
     >
       {buttonLabel}
     </button>

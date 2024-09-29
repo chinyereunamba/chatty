@@ -12,7 +12,7 @@ type FormProps = {
 const Form = ({ submitFnc, inputList, buttonLabel }: FormProps) => {
   return (
     <FormContainer>
-      <form onSubmit={submitFnc}>
+      <form onSubmit={submitFnc} method="post">
         {inputList.map((input, index) => (
           <Input
             key={index}

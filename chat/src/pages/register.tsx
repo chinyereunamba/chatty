@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, FormTitle } from "../components";
 import { FormEvent, useState } from "react";
+import api from "../services";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     username: "",
@@ -11,6 +13,22 @@ const Register = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const res = api
+      .post("auth/registration/", {
+        email: user.email,
+        username: user.username,
+        password1: user.password,
+        password2: user.password,
+      })
+      .then((res) => {
+        if (res.status == 201) {
+          console.log("Successfully authenticated");
+          navigate("/");
+        } else {
+          console.log("Failed to authenticate");
+        }
+        console.log(res);
+      });
   };
 
   return (
