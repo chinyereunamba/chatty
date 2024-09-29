@@ -2,8 +2,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, FormTitle } from "../components";
 import { FormEvent, useState } from "react";
 import api from "../services";
+import useAuthStore from "../store";
+
 
 const Register = () => {
+  const { setLoggedIn, setAccessToken } = useAuthStore();
+
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
@@ -13,7 +17,7 @@ const Register = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const res = api
+    api
       .post("auth/registration/", {
         email: user.email,
         username: user.username,
@@ -23,6 +27,11 @@ const Register = () => {
       .then((res) => {
         if (res.status == 201) {
           console.log("Successfully authenticated");
+
+          setAccessToken(res.data.access);
+          setLoggedIn(true);
+          console.log(res);
+
           navigate("/");
         } else {
           console.log("Failed to authenticate");

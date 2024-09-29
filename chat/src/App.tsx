@@ -1,15 +1,31 @@
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import { Home, Login, Register, ResetPassword } from "./pages";
+import { Home, Login, Register, ResetPassword, Unauthenticated } from "./pages";
+import useAuthStore from "./store";
 
 const App = () => {
+  const { isLoggedIn } = useAuthStore();
+
+  // const handleLogout = () => {
+  //   setAccessToken(null);
+  //   setLoggedIn(false);
+  // };
+
+  console.log(isLoggedIn);
+
   return (
     <section className="min-h-screen">
       <BrowserRouter>
         <Routes>
-          <Route element={<Home />} path="/" />
-          <Route element={<Login />} path="login" />
-          <Route element={<Register />} path="register" />
-          <Route element={<ResetPassword />} path="reset-password" />
+          {isLoggedIn ? (
+            <Route element={<Home />} path="/" />
+          ) : (
+            <>
+              <Route element={<Unauthenticated />} path="/" />
+              <Route element={<Login />} path="login" />
+              <Route element={<Register />} path="register" />
+              <Route element={<ResetPassword />} path="reset-password" />
+            </>
+          )}
         </Routes>
       </BrowserRouter>
     </section>

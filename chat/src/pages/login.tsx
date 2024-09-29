@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, FormTitle } from "../components";
 import { FormEvent, useState } from "react";
 import api from "../services";
+import useAuthStore  from "../store";
 
 type User = {
   email: string;
@@ -9,6 +10,7 @@ type User = {
 };
 
 const Login = () => {
+  const { setLoggedIn, setAccessToken } = useAuthStore();
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
@@ -27,9 +29,11 @@ const Login = () => {
         password: password,
       })
       .then((res) => {
+        setAccessToken(res.data.access);
+        setLoggedIn(true);
         console.log(res);
-      })
-      .then((res) => navigate("/"));
+        navigate("/");
+      });
 
     console.log(email, password);
   };
