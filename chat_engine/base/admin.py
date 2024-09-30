@@ -7,7 +7,7 @@ from django.contrib.auth.admin import UserAdmin
 
 class UserModelAdmin(UserAdmin):
     list_display = ["email", "username", "is_superuser", "is_active"]
-    exclude = ["date_joined", 'last_login']
+    exclude = ["date_joined", "last_login"]
     readonly_fields = ["date_joined"]
     fieldsets = (
         (None, {"fields": ("email", "username", "password")}),
@@ -22,6 +22,11 @@ class UserModelAdmin(UserAdmin):
                 )
             },
         ),
+    )
+    add_fieldsets = (
+        (None, {"fields": ("email",)}),
+        ("Personal Info", {"fields": ("username", "display_name")}),
+        (None, {"fields": ("password1", "password2")}),
     )
     filter_horizontal = []
     filter_vertical = []

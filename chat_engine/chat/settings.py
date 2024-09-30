@@ -20,6 +20,7 @@ AUTH_USER_MODEL = "base.User"
 # Application definition
 
 INSTALLED_APPS = [
+    # "daphne",
     "django.contrib.sites",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -29,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # App
     "base",
+    "core",
     # Third party apps
     "rest_framework",
     "rest_framework.authtoken",
@@ -40,9 +42,18 @@ INSTALLED_APPS = [
     "allauth.socialaccount.providers.google",
     "corsheaders",
     "rest_framework_simplejwt",
-    # Debug toolbar for development
-    "debug_toolbar",
+    "channels",
 ]
+
+
+# Debug toolbar for development
+if DEBUG:
+    INSTALLED_APPS += ("debug_toolbar",)
+
+    INTERNAL_IPS = [
+        "127.0.0.1",
+    ]
+
 
 SITE_ID = 1
 
@@ -191,13 +202,6 @@ EMAIL_HOST_USER = ""
 EMAIL_HOST_PASSWORD = ""
 USE_TLS = True
 # EMAIL_HOST_PORT = 587
-
-
-# Debug toolbar settings
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 
 
 # Rest auth settings

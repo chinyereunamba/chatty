@@ -6,7 +6,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     username = serializers.CharField(required=True)
     is_active = serializers.BooleanField(required=True)
@@ -14,9 +13,6 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
     class Meta(UserDetailsSerializer.Meta):
         model = User
         fields = [UserDetailsSerializer.fields, "username", "is_active"]
-
-# serializers.py
-from dj_rest_auth.serializers import LoginSerializer
 
 
 class CustomLoginSerializer(LoginSerializer):
@@ -26,6 +22,13 @@ class CustomLoginSerializer(LoginSerializer):
         user = super().get_auth_user(*args, **kwargs)
         # Add any custom attributes if needed
         return user
-    
+
     class Meta:
         model = User
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ('password',)
+        ordering = ("-username")

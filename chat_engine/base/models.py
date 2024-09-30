@@ -47,14 +47,17 @@ class User(AbstractBaseUser):
     last_login = models.DateTimeField(_("Last Login"), auto_now=True, blank=True)
 
     is_active = models.BooleanField(_("Is active"), default=True)
-    is_admin = models.BooleanField(_("Is admin"), default=True)
-    is_staff = models.BooleanField(_("Is staff"), default=True)
-    is_superuser = models.BooleanField(_("Is superuser"), default=True)
+    is_admin = models.BooleanField(_("Is admin"), default=False)
+    is_staff = models.BooleanField(_("Is staff"), default=False)
+    is_superuser = models.BooleanField(_("Is superuser"), default=False)
 
     objects = AccountManager()
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username", "display_name"]
+
+    class Meta:
+        ordering = ["username"]
 
     def __str__(self):
         return self.username

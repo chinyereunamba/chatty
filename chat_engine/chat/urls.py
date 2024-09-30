@@ -6,11 +6,13 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("allauth.urls")),
     path("api/", include("base.urls")), 
+    path("api/", include('core.urls')),
     path("api/auth/", include("dj_rest_auth.urls")),  
     path("api/auth/registration/", include("dj_rest_auth.registration.urls")), 
+
 ]
 
-if settings.DEBUG:  # Include debug toolbar only if DEBUG is True
+if settings.DEBUG: 
     import debug_toolbar
 
     urlpatterns = [

@@ -1,17 +1,23 @@
 from urllib.parse import urljoin
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from django.urls import reverse
 import requests
 from django.views.generic import RedirectView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 # Create your views here.
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+
+from .serializers import UserSerializer
+
+
+User = get_user_model()
 
 
 class GoogleLoginView(SocialLoginView):
@@ -49,3 +55,9 @@ class GoogleLoginCallback(APIView):
         response = requests.post(url=token_endpoint_url, data={"code": code})
 
         return Response(response.json(), status=status.HTTP_200_OK)
+
+
+class UserListView(generics.ListAPIView):
+    model = User
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
